@@ -1,0 +1,132 @@
+```{r}
+install.packages("caret")
+install.packages("broom")
+install.packages("madrittr")
+install.packages("modelr")
+
+library(caret)        # another handy stats package; has train/test split functions
+library(magrittr)     # pipe operator
+library(broom)        # assists with cleaning
+library(modelr)       # modeling in r
+library(corrplot)     # for visualizing correlations
+
+
+library(tidyverse)    # assists with cleaning
+library(car)          # basic statistics package
+library(stats)        # basic statistics package
+library("PerformanceAnalytics") #has correlation and other relationship/modeling features
+library(GGally)       # extension of ggplot - has nice correlation matrix plot
+library(moments)      # contains jarque function and other helpful test functions
+
+fashion <- read.csv("/Users/scarlettmoldovan3/Desktop/dataset_fashion.csv", header=TRUE)
+head(fashion)
+
+```
+```{r}
+rm(df)
+
+```
+```{r}
+library(dplyr)
+fashage <- fashion[order(fashion$age), ]
+```
+```{r}
+fashage <- fashage[1:137,]
+fashage <- fashage[,-46:-50]
+distinct(fashage)%>% count()
+fashage <- fashage %>% distinct()
+
+fashage1 <- fashage %>% select('i_clothes_fashion', 'i_clothes_cheap', 'i_clothes_know', 'i_clothes_environment', 'pro_brown_firms',
+'pro_label_clothes', 'pro_bio2_clothes', 'age', 'education', 'income', 'female')
+```
+```{r}
+fashage1 <- rename(fashage1, c(gender=female))
+```
+```{r}
+fashion2 <- read.csv("/Users/scarlettmoldovan3/Desktop/fashion2.csv", header=TRUE)
+fashion2 <- fashion2 %>% select('i_clothes_fashion', 'i_clothes_cheap', 'i_clothes_know', 'i_clothes_environment', 'pro_brown_firms',
+'pro_label_clothes', 'pro_bio2_clothes', 'age', 'education', 'gender')
+```
+```{r}
+fashion2 <- fashion2[1:135,]
+```
+
+```{r}
+library(ggthemes)
+mean(fashion2$i_clothes_environment)
+summary(fashion2)
+glimpse(fashion2)
+sum(is.na(fashion2))
+hist(fashion2$i_clothes_fashion, main="Trend Frequency", xlab = "Importance", ylab = "Frequency")
+hist(fashion2$i_clothes_environment, main="Eco-Value Frequency", xlab="Importance", ylab="Frequency")
+hist(fashion2$pro_brown_firms, main="Avoidance of Products That Do Not Respect the Environment", xlab="Importance", ylab="Frequency")
+hist(fashion2$pro_bio2_clothes, main = "Eco-Friendly Purchasing Behavior", xlab="Importance", ylab="Frequency")
+cheap <- fashion2$i_clothes_cheap
+trend <- fashion2$i_clothes_fashion
+eco <- fashion2$i_clothes_environment
+
+```
+
+```{r}
+library(tidyverse)#our trusty tidyverse package!
+library(stats)#stats package; contains cor() & shapiro.test functions
+library(car)#another basic stats package; contains qqPlot() function
+library(corrplot) # for visualizing correlations
+library("PerformanceAnalytics") #has correlation features
+library(GGally)
+```
+```{r}
+df_fashion <- fashion2 %>% select('pro_bio2_clothes', 'i_clothes_environment')
+pairs(df_fashion)
+qqPlot(df_fashion$pro_bio2_clothes)
+qqPlot(df_fashion$i_clothes_environment)
+
+corr_plot_pearson_1 <- cor(df_fashion, method = "pearson")
+corr_plot_pearson_1
+
+df_fashion2 <- fashion2 %>% select('pro_bio2_clothes', 'i_clothes_fashion')
+pairs(df_fashion2)
+qqPlot(df_fashion2$pro_bio2_clothes)
+qqPlot(df_fashion2$i_clothes_fashion)
+
+corr_plot_pearson_2 <- cor(df_fashion2, method = "pearson")
+corr_plot_pearson_2
+
+df_fashion3 <- fashion2 %>% select('pro_brown_firms', 'i_clothes_environment')
+pairs(df_fashion3)
+qqPlot(df_fashion3$pro_brown_firms)
+qqPlot(df_fashion3$i_clothes_environment)
+
+corr_plot_pearson_3 <- cor(df_fashion3, method = "pearson")
+corr_plot_pearson_3
+
+df_fashion4 <- fashion2 %>% select('pro_brown_firms', 'i_clothes_fashion')
+pairs(df_fashion4)
+qqPlot(df_fashion4$pro_brown_firms)
+qqPlot(df_fashion4$i_clothes_fashion)
+
+corr_plot_pearson_4 <- cor(df_fashion4, method = "pearson")
+corr_plot_pearson_4
+
+```
+```{r}
+#spearman
+corr_plot_spearman_1 <- cor(df_fashion, method = "spearman")
+corr_plot_spearman_1
+
+corr_plot_spearman_3 <- cor(df_fashion3, method = "spearman")
+corr_plot_spearman_3
+
+corr_plot_spearman_2 <- cor(df_fashion2, method = "spearman")
+corr_plot_spearman_2
+
+corr_plot_spearman_4 <- cor(df_fashion2, method = "spearman")
+corr_plot_spearman_4
+```
+```{r}
+length(which(fashion2$pro_bio2_clothes==1))
+length(which(fashion2$pro_bio2_clothes==2))
+length(which(fashion2$pro_bio2_clothes==3))
+length(which(fashion2$pro_bio2_clothes==4))
+length(which(fashion2$pro_bio2_clothes==5))
+```
