@@ -11,8 +11,7 @@ We examine whether ethical production, environmental respect, and fashion trends
 
 | File Name | Description |
 |-----------|-------------|
-| `fashion2.csv` | Cleaned subset of survey data with Gen Z respondents |
-| `genz_fashion_analysis.R` | Full R script including cleaning, visualization, and correlation testing |
+| `SustainabilityinStyle.Rmd` | Full R script including cleaning, visualization, and correlation testing |
 | `Sustainability_in_Style_Case_Study.pdf` | In-depth writeup of the project, methodology, and results |
 
 ## Dataset
